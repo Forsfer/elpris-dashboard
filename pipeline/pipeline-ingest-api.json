@@ -1,0 +1,72 @@
+{
+	"name": "pipeline-ingest-api",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "RestSource",
+						"httpRequestTimeout": "00:01:40",
+						"requestInterval": "00.00:00:00.010",
+						"requestMethod": "GET",
+						"paginationRules": {
+							"supportRFC5988": "true"
+						}
+					},
+					"sink": {
+						"type": "JsonSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "JsonWriteSettings"
+						}
+					},
+					"enableStaging": false
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_elpris_api",
+						"type": "DatasetReference",
+						"parameters": {
+							"relativePath": {
+								"value": "@concat(\n  formatDateTime(utcNow(),'yyyy'),\n  '/',\n  formatDateTime(utcNow(),'MM'),\n  '-',\n  formatDateTime(utcNow(),'dd'),\n  '_SE3.json'\n)",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_raw_elpris",
+						"type": "DatasetReference",
+						"parameters": {
+							"folderPath": {
+								"value": "@concat(\n  'raw/elpriser/'\n)\n",
+								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@concat(\n  'prices_',\n  formatDateTime(utcNow(),'yyyyMMdd_HH'),\n  '.json'\n)\n",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-02-08T09:06:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

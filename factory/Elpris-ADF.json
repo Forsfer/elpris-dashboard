@@ -1,0 +1,9 @@
+{
+	"name": "Elpris-ADF",
+	"location": "swedencentral",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "dd0e02e8-a125-4603-b383-bd96ee8f967c",
+		"tenantId": "e49043d8-1f8c-497d-b68d-32e33d6dbf77"
+	}
+}
