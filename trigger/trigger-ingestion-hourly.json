@@ -7,7 +7,7 @@
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pipeline-ingest-api",
+					"referenceName": "pl_ingest_api",
 					"type": "PipelineReference"
 				}
 			}

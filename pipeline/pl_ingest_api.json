@@ -1,5 +1,5 @@
 {
-	"name": "pipeline-ingest-api",
+	"name": "pl_ingest_api",
 	"properties": {
 		"activities": [
 			{
