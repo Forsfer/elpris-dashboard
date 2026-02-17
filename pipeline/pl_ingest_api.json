@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data",
+				"name": "copy_api_prices_to_datalake",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {

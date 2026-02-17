@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy raw prices to sql bronze table",
+				"name": "copy_prices_to_bronze",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -36,7 +36,10 @@
 						"type": "AzureSqlSink",
 						"writeBehavior": "upsert",
 						"upsertSettings": {
-							"useTempDB": true
+							"useTempDB": true,
+							"keys": [
+								"time_start"
+							]
 						},
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
