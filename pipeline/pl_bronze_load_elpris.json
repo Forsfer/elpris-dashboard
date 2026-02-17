@@ -1,0 +1,136 @@
+{
+	"name": "pl_bronze_load_elpris",
+	"properties": {
+		"description": "Pipelinen läser in senaste timmens JSON-filen med elpriser från Data Lake och laddar in datan i bronslagrets SQL-tabell. Vid varje körning skrivs hela dagens data in, och med upsert säkerställs att endast nya eller uppdaterade rader påverkas i tabellen.",
+		"activities": [
+			{
+				"name": "copy_prices_to_bronze",
+				"description": "Hämtar elpriser från Data Lake och laddar dem till bronze-lagret.\nWrite behavior är satt till Upsert baserat på time_start för att undvika duplicerade rader när dagens fil innehåller historiska timmar.",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"additionalColumns": [
+							{
+								"name": "source_file",
+								"value": "$$FILENAME"
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobFSReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"time_start"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "$['SEK_per_kWh']"
+								},
+								"sink": {
+									"name": "SEK_per_kWh",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EUR_per_kWh']"
+								},
+								"sink": {
+									"name": "EUR_per_kWh",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['EXR']"
+								},
+								"sink": {
+									"name": "EXR",
+									"type": "Decimal"
+								}
+							},
+							{
+								"source": {
+									"path": "$['time_start']"
+								},
+								"sink": {
+									"name": "time_start",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['time_end']"
+								},
+								"sink": {
+									"name": "time_end",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "$['source_file']"
+								},
+								"sink": {
+									"name": "source_file",
+									"type": "String"
+								}
+							}
+						]
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_datalake_prices",
+						"type": "DatasetReference",
+						"parameters": {
+							"folderPath": {
+								"value": "@concat(\n  'raw/elpriser'\n)\n",
+								"type": "Expression"
+							},
+							"fileName": {
+								"value": "@concat(\n  'prices_',\n  formatDateTime(addHours(utcNow(), -1), 'yyyyMMdd'),\n  '.json'\n)\n",
+								"type": "Expression"
+							}
+						}
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_sql_bronze_prices",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}

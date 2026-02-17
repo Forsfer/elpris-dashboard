@@ -1,13 +1,12 @@
 {
-	"name": "trigger-ingestion-hourly",
+	"name": "trigger_ingestion_sql_hourly",
 	"properties": {
-		"description": "Trigger som körs timvis för att hämta elpriserna från aktuell timme som nyss har passerat.",
 		"annotations": [],
 		"runtimeState": "Started",
 		"pipelines": [
 			{
 				"pipelineReference": {
-					"referenceName": "pipeline-ingest-api",
+					"referenceName": "pl_bronze_load_elpris",
 					"type": "PipelineReference"
 				}
 			}
@@ -17,7 +16,7 @@
 			"recurrence": {
 				"frequency": "Hour",
 				"interval": 1,
-				"startTime": "2026-02-08T13:05:00",
+				"startTime": "2026-02-17T12:08:00",
 				"timeZone": "W. Europe Standard Time"
 			}
 		}

@@ -1,9 +1,10 @@
 {
-	"name": "pipeline-ingest-api",
+	"name": "pl_ingest_api",
 	"properties": {
+		"description": "Pipelinen tar in json-data från elpris-APIet och sparar det i en fil för dagens datum i Data Lake:n. En trigger exekuterar pipelinen 5 minuter efter varje timme och skriver då över tidigare innehåll i filen så att den inkluderar senaste datan.",
 		"activities": [
 			{
-				"name": "Copy data",
+				"name": "copy_api_prices_to_datalake",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -57,7 +58,7 @@
 								"type": "Expression"
 							},
 							"fileName": {
-								"value": "@concat(\n  'prices_',\n  formatDateTime(utcNow(),'yyyyMMdd_HH'),\n  '.json'\n)\n",
+								"value": "@concat(\n  'prices_',\n  formatDateTime(addHours(utcNow(), -1), 'yyyyMMdd'),\n  '.json'\n)",
 								"type": "Expression"
 							}
 						}
