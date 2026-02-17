@@ -1,5 +1,5 @@
 {
-	"name": "trigger_copy_raw_to_data_lake",
+	"name": "trigger_ingestion_sql_hourly",
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
