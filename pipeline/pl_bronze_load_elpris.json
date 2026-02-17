@@ -4,6 +4,7 @@
 		"activities": [
 			{
 				"name": "copy_prices_to_bronze",
+				"description": "Hämtar elpriser från Data Lake och laddar dem till bronze-lagret.\nWrite behavior är satt till Upsert baserat på time_start för att undvika duplicerade rader när dagens fil innehåller historiska timmar.",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
