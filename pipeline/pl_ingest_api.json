@@ -57,7 +57,7 @@
 								"type": "Expression"
 							},
 							"fileName": {
-								"value": "@concat(\n  'prices_',\n  formatDateTime(utcNow(),'yyyyMMdd_HH'),\n  '.json'\n)\n",
+								"value": "@concat(\n  'prices_',\n  formatDateTime(addHours(utcNow(), -1), 'yyyyMMdd'),\n  '.json'\n)",
 								"type": "Expression"
 							}
 						}
