@@ -1,6 +1,7 @@
 {
 	"name": "pl_bronze_load_elpris",
 	"properties": {
+		"description": "Pipelinen läser in senaste timmens JSON-filen med elpriser från Data Lake och laddar in datan i bronslagrets SQL-tabell. Vid varje körning skrivs hela dagens data in, och med upsert säkerställs att endast nya eller uppdaterade rader påverkas i tabellen.",
 		"activities": [
 			{
 				"name": "copy_prices_to_bronze",
