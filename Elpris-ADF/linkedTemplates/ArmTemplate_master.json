@@ -1,0 +1,91 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "Elpris-ADF"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
+		},
+		"sql_elpris_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'sql_elpris'"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://elprisprojekt.dfs.core.windows.net/"
+		},
+		"elpris_api_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://www.elprisetjustnu.se/api/v1/prices/"
+		},
+		"sql_elpris_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "sql-elpris-northeurope.database.windows.net"
+		},
+		"sql_elpris_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "elpris"
+		},
+		"sql_elpris_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "sqladmin"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "Elpris-ADF_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2024-03-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"AzureDataLakeStorage1_accountKey": {
+						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					},
+					"sql_elpris_password": {
+						"value": "[parameters('sql_elpris_password')]"
+					},
+					"AzureDataLakeStorage1_properties_typeProperties_url": {
+						"value": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]"
+					},
+					"elpris_api_properties_typeProperties_url": {
+						"value": "[parameters('elpris_api_properties_typeProperties_url')]"
+					},
+					"sql_elpris_properties_typeProperties_server": {
+						"value": "[parameters('sql_elpris_properties_typeProperties_server')]"
+					},
+					"sql_elpris_properties_typeProperties_database": {
+						"value": "[parameters('sql_elpris_properties_typeProperties_database')]"
+					},
+					"sql_elpris_properties_typeProperties_userName": {
+						"value": "[parameters('sql_elpris_properties_typeProperties_userName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

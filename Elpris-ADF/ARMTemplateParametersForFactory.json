@@ -1,0 +1,30 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "Elpris-ADF"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"sql_elpris_password": {
+			"value": ""
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://elprisprojekt.dfs.core.windows.net/"
+		},
+		"elpris_api_properties_typeProperties_url": {
+			"value": "https://www.elprisetjustnu.se/api/v1/prices/"
+		},
+		"sql_elpris_properties_typeProperties_server": {
+			"value": "sql-elpris-northeurope.database.windows.net"
+		},
+		"sql_elpris_properties_typeProperties_database": {
+			"value": "elpris"
+		},
+		"sql_elpris_properties_typeProperties_userName": {
+			"value": "sqladmin"
+		}
+	}
+}
